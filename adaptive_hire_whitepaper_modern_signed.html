@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>The Adaptive Hire Framework | Modern Whitepaper</title>
+  <meta name="description" content="A modern, capability-based hiring framework for small businesses operating under AI acceleration and operational volatility (2026)."/>
+  <style>
+    :root {
+      --primary: #2180a0;
+      --primary-2: #1e7490;
+      --accent: #a855f7;
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --text: #121417;
+      --muted: #6b7078;
+      --border: rgba(18,20,23,0.10);
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --shadow-soft: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: var(--max); margin: 0 auto; padding: 24px; }
+    .grid { display: grid; gap: 18px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.10);
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      transition: transform .15s ease, background .15s ease;
+      backdrop-filter: blur(10px);
+    }
+    .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.14); }
+    .btn.secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+    .btn.secondary:hover { background: rgba(255,255,255,0.85); }
+
+    /* Top progress bar */
+    .reading-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 4px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      z-index: 50;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      color: white;
+      background:
+        radial-gradient(800px 400px at 20% 20%, rgba(33,128,160,0.45), transparent 60%),
+        radial-gradient(700px 380px at 78% 26%, rgba(168,85,247,0.35), transparent 60%),
+        linear-gradient(180deg, #0b1220, #0a0f18 60%, #0b1220);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .hero-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 54px 24px 30px 24px;
+      display: grid;
+      gap: 18px;
+    }
+    .kicker {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      color: rgba(255,255,255,0.86);
+      font-size: 13px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .kicker .dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.06);
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 4.3vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -0.6px;
+    }
+    .hero-sub {
+      max-width: 78ch;
+      color: rgba(255,255,255,0.80);
+      font-size: 16px;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      align-items: center;
+      color: rgba(255,255,255,0.75);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+
+    /* Layout */
+    .main {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 22px;
+      align-items: start;
+      margin-top: 22px;
+    }
+    .toc {
+      position: sticky;
+      top: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+    .toc h3 { margin: 0 0 10px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); }
+    .toc a {
+      display: block;
+      padding: 9px 10px;
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      border: 1px solid transparent;
+    }
+    .toc a:hover {
+      color: var(--text);
+      border-color: var(--border);
+      background: rgba(33,128,160,0.06);
+    }
+    .paper {
+      display: grid;
+      gap: 18px;
+    }
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow-soft);
+    }
+    .section h2 {
+      margin: 0 0 8px 0;
+      font-size: 22px;
+      letter-spacing: -0.2px;
+    }
+    .section p { margin: 10px 0; color: rgba(18,20,23,0.88); }
+    .muted { color: var(--muted); }
+
+    .callout {
+      border-radius: var(--radius);
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(33,128,160,0.10), rgba(168,85,247,0.08));
+      border: 1px solid rgba(33,128,160,0.20);
+    }
+    .callout h3 {
+      margin: 0 0 6px 0;
+      font-size: 16px;
+    }
+    .callout p { margin: 8px 0 0 0; color: rgba(18,20,23,0.84); }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+      transition: transform .15s ease, box-shadow .15s ease;
+      display: grid;
+      gap: 10px;
+      min-height: 165px;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .card-top { display: grid; gap: 8px; }
+    .pill {
+      display: inline-flex;
+      width: fit-content;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: #0b1220;
+      background: rgba(33,128,160,0.18);
+      border: 1px solid rgba(33,128,160,0.20);
+    }
+    .card h3 { margin: 0; font-size: 15px; letter-spacing: -0.1px; }
+    .card p { margin: 0; font-size: 13px; }
+    .card-cta { margin-top: auto; font-weight: 700; color: var(--primary); font-size: 13px; }
+
+    /* Domain detail */
+    .domain { scroll-margin-top: 90px; }
+    .domain-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .domain-kicker {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .svg { width: 100%; height: auto; }
+    .svg-light { box-shadow: var(--shadow-soft); border-radius: var(--radius); }
+
+    /* Footer */
+    footer {
+      padding: 26px 0 40px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .main { grid-template-columns: 1fr; }
+      .toc { position: relative; top: 0; }
+      .two-col { grid-template-columns: 1fr; }
+      .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .hero-inner { padding-top: 44px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .section { padding: 18px; }
+    }
+
+    /* Print */
+    @media print {
+      body { background: white; }
+      .reading-progress, .hero-actions { display: none !important; }
+      .hero { background: #0b1220; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .toc { display: none !important; }
+      .section, .card { box-shadow: none !important; }
+      a { text-decoration: none; }
+    }
+  /* --- Authorship + print signature --- */
+.byline{
+  margin: 18px auto 0;
+  max-width: 1080px;
+  padding: 0 24px;
+}
+.byline-inner{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(10px);
+}
+.byline-top{ font-size: 16px; letter-spacing: .2px; }
+.byline-sub{ font-size: 13px; opacity: .86; }
+
+.print-only{ display:none; }
+
+.signature{
+  margin: 24px auto 0;
+  max-width: 1080px;
+  padding: 0 24px 40px;
+}
+.signature-card{
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 16px;
+  padding: 16px 16px 14px;
+  background: #fff;
+}
+.signature-title{
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 10px;
+}
+.signature-row{
+  display:grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+  align-items: end;
+}
+.sig-line{
+  height: 42px;
+  border-bottom: 2px solid rgba(0,0,0,.35);
+}
+.sig-meta{
+  font-size: 12px;
+  line-height: 1.35;
+}
+.signature-rights{
+  margin-top: 10px;
+  font-size: 11px;
+  opacity: .75;
+}
+
+/* Print: hide chrome, show signature */
+@media print{
+  .print-only{ display:block !important; }
+  .signature{ break-inside: avoid; page-break-inside: avoid; }
+  .byline-inner{ border: 1px solid rgba(0,0,0,.18); background: #fff; }
+}
+</style>
+</head>
+<body>
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="kicker"><span class="dot"></span> Whitepaper | v0.1 draft layout</div>
+      <h1>The Adaptive Hire Framework</h1>
+<div class="byline" role="contentinfo" aria-label="Authorship">
+  <div class="byline-inner">
+    <div class="byline-top">By <strong>Dr. Cary Woods, DHA</strong></div>
+    <div class="byline-sub">Adaptive Hire Framework • Version 1.0 • <span class="byline-date">January 8, 2026</span></div>
+  </div>
+</div>
+      <div class="hero-sub">
+        A proposed capability-based hiring model for small businesses operating under AI acceleration and operational volatility (2026).
+      </div>
+      <div class="hero-meta">
+        <span class="chip"><strong>Date</strong> 01-08-2026</span>
+        <span class="chip"><strong>Format</strong> HTML-first, print-ready</span>
+        <span class="chip"><strong>Audience</strong> Founders, operators, small HR teams</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn" href="#executive-summary">Start reading</a>
+        <a class="btn secondary" href="javascript:window.print()">Print or save PDF</a>
+      </div>
+      
+<svg viewBox="0 0 720 220" role="img" aria-label="Three structural forces of mismatch" class="svg">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0" stop-color="var(--primary)"/>
+      <stop offset="1" stop-color="var(--accent)"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="720" height="220" rx="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+    <text x="26" y="40" fill="white" font-size="18" font-weight="700">Structural mismatch in small-business hiring (2026)</text>
+    <text x="26" y="66" fill="rgba(255,255,255,0.72)" font-size="13">Three forces compress the candidate pool while raising complexity inside roles</text>
+    <g transform="translate(26,92)">
+      <rect x="0" y="0" width="210" height="98" rx="12" fill="rgba(33,128,160,0.18)" stroke="rgba(255,255,255,0.12)"/>
+      <text x="14" y="30" fill="white" font-size="13" font-weight="700">Credential inflation</text>
+      <text x="14" y="54" fill="rgba(255,255,255,0.72)" font-size="12">Signals lose meaning</text>
+      <text x="14" y="74" fill="rgba(255,255,255,0.72)" font-size="12">Pools shrink</text>
+    </g>
+    <g transform="translate(246,92)">
+      <rect x="0" y="0" width="210" height="98" rx="12" fill="rgba(168,85,247,0.18)" stroke="rgba(255,255,255,0.12)"/>
+      <text x="14" y="30" fill="white" font-size="13" font-weight="700">AI task recomposition</text>
+      <text x="14" y="54" fill="rgba(255,255,255,0.72)" font-size="12">Roles change quickly</text>
+      <text x="14" y="74" fill="rgba(255,255,255,0.72)" font-size="12">Training is improvised</text>
+    </g>
+    <g transform="translate(466,92)">
+      <rect x="0" y="0" width="228" height="98" rx="12" fill="rgba(16,160,109,0.16)" stroke="rgba(255,255,255,0.12)"/>
+      <text x="14" y="30" fill="white" font-size="13" font-weight="700">Lean-team fragility</text>
+      <text x="14" y="54" fill="rgba(255,255,255,0.72)" font-size="12">One mis-hire cascades</text>
+      <text x="14" y="74" fill="rgba(255,255,255,0.72)" font-size="12">Supervision is scarce</text>
+    </g>
+  </g>
+</svg>
+
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="main">
+      <nav class="toc" aria-label="Table of contents">
+        <h3>Contents</h3>
+        <a href="#executive-summary">Executive summary</a>
+        <a href="#purpose-scope">Purpose and scope</a>
+        <a href="#problem">The documented problem</a>
+        <a href="#design-logic">Design logic</a>
+        <a href="#framework">The framework</a>
+        <a href="#domains">Ten capability domains</a>
+        <a href="#positioning">Positioning</a>
+        <a href="#application">Practical application</a>
+        <a href="#limitations">Limitations</a>
+        <a href="#conclusion">Conclusion</a>
+        <a href="#domains-detail">Domain details</a>
+      </nav>
+
+      <div class="paper">
+        <section class="section" id="executive-summary">
+          <h2>Executive summary</h2>
+          <p>Small business hiring in 2026 increasingly resembles a structural mismatch problem rather than a short-lived labor shortage. Talent supply constraints interact with changing job content, rising expectations for multi-role competence, and the uneven diffusion of AI tools into everyday operations. Conventional hiring practices often respond by intensifying credential filters and narrowing candidate pools. Evidence from labor market data and small-business surveys suggests that many firms continue to report difficulty filling openings and locating qualified applicants, even as job openings and worker mobility fluctuate across the broader economy.</p>
+<p>This white paper introduces the Adaptive Hire Framework as a proposed design intervention for founders and small HR functions. The framework is not presented as a validated theory or empirically proven system. The framework offers a structured lens for shifting selection away from credential-first screening and toward observable operational capabilities that small teams repeatedly need under uncertainty. Ten capability domains are specified, each framed as behaviorally assessable capacity rather than personality traits. The paper explains the design logic for capability-based selection, outlines practical application options (job posting design, structured screening, work-sample assessment, and scenario prompts), and identifies limitations and risks, including measurement challenges and fairness concerns. The framework is positioned as an open model intended for experimentation, refinement, and future research rather than a finished, evidence-validated solution.</p>
+          <div class="callout">
+            <h3>Design intent</h3>
+            <p>The framework is offered as an open model for experimentation and refinement. Results depend on context, implementation quality, and labor market conditions.</p>
+          </div>
+        </section>
+
+        <section class="section" id="purpose-scope">
+          <h2>Purpose and scope</h2>
+          <p>This paper proposes a conceptual hiring model for small businesses titled The Adaptive Hire Framework. The document treats the framework as a design response to a set of operating conditions that appear increasingly common for small firms: lean staffing, role overlap, volatility in demand and supply chains, and rapid task reconfiguration driven by software and AI tooling. The framework is offered as an organizing structure for decision-making, not as a claim of scientific validation.</p>
+<p>Primary audiences include founders, general managers, and small HR teams responsible for hiring under time, capital, and supervisory constraints. Secondary audiences include workforce development leaders, educators, and policy stakeholders interested in the implications of AI-driven task change for small-firm staffing and local labor markets.</p>
+<p>Background conditions are supported with selective, high-quality sources when numerical or empirical claims appear. The framework itself is not described as “evidence-based,” “proven,” “validated,” or “endorsed,” and no empirical outcomes are asserted for organizations that adopt it. Practical guidance is offered as reasonable application pathways and options, with explicit acknowledgement that results depend on context, implementation quality, and labor market conditions.</p>
+        </section>
+
+        <section class="section" id="problem">
+          <h2>The documented problem</h2>
+          <div class="two-col">
+            <div>
+              <p>Small businesses matter to the labor market because they employ a large share of the U.S. workforce and operate across every local economy, including sectors where work is location-bound and relationship-driven. Federal small business profiles regularly show that small firms constitute the overwhelming majority of businesses and account for a substantial share of employment. Those facts create a baseline policy implication: persistent hiring friction in small firms is not a niche inconvenience, because staffing constraints in small enterprises scale into local service availability, regional growth, and household stability.</p>
+<p>Hiring friction in 2026 cannot be described only as “not enough workers.” Small business surveys repeatedly report difficulty finding qualified applicants and filling roles, a pattern that has persisted across multiple business cycles and interest-rate regimes. National Federation of Independent Business (NFIB) reporting has tracked hiring difficulty and “few or no qualified applicants” as a recurrent theme in small business hiring conditions. Labor market tightness varies over time, yet the underlying complaint often remains: applicants exist, but fit for the actual job as performed inside a small firm appears scarce.</p>
+<p>Three structural forces amplify this mismatch.</p>
+<p>Credential inflation and signal distortion. Employers have increased educational requirements for roles that historically did not require them, a practice often described as degree inflation. Research on “dismissed by degrees” documents how degree requirements can expand even when job tasks remain similar, shrinking the candidate pool without necessarily improving job performance. Small businesses often inherit this practice through templates, job board defaults, and risk-averse norms, even when the role is fundamentally operational and learnable through experience.</p>
+<p>Role fragmentation and recomposition under AI tooling. AI and automation do not simply remove jobs; they alter tasks, workflows, and supervision models. Reports from global labor market observers forecast substantial skills change within job roles over the current decade, driven by technology adoption and work redesign. Small firms experience this shift differently than large firms: fewer specialists exist, fewer buffers protect managers from interruption, and process changes propagate immediately to every employee. Adoption of AI tools among small businesses appears uneven but growing, and surveys indicate meaningful experimentation even when formal strategy is absent.</p>
+<p>Lean operations and fragility of hiring errors. A single mis-hire in a five-to-fifteen-person firm can trigger cascading failure: customer churn, delayed invoicing, quality slips, and founder burnout. Larger organizations can absorb variance through layered supervision, redundancy, and internal transfers. Small firms often cannot. Hiring, therefore, becomes a high-stakes design decision rather than a routine HR transaction.</p>
+<p>Structural mismatch emerges when candidate screening methods privilege proxies that do not map cleanly to the work context. Degree requirements, brand-name employers, and years-in-role can function as “signals,” yet signals degrade when tasks change, jobs become hybrid, and AI tools shift the boundary between novice and proficient work. The problem becomes less about worker scarcity alone and more about misalignment among job design, screening signals, and real operating conditions.</p>
+            </div>
+            <div class="grid">
+              
+<svg viewBox="0 0 520 260" role="img" aria-label="Ten capability domains overview" class="svg svg-light">
+  <defs>
+    <linearGradient id="ring" x1="0" x2="1">
+      <stop offset="0" stop-color="var(--primary)"/>
+      <stop offset="1" stop-color="var(--accent)"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="520" height="260" rx="18" fill="white" stroke="rgba(0,0,0,0.06)"/>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+    <text x="24" y="40" fill="var(--text)" font-size="18" font-weight="800">The framework at a glance</text>
+    <text x="24" y="62" fill="var(--muted)" font-size="12">Ten domains designed to be observable, assessable, and developable</text>
+    <g transform="translate(300,138)">
+      <circle r="74" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="18"/>
+      <circle r="74" fill="none" stroke="url(#ring)" stroke-width="18" stroke-linecap="round"
+              stroke-dasharray="440 465" transform="rotate(-90)"/>
+      <text x="0" y="-2" text-anchor="middle" fill="var(--text)" font-size="24" font-weight="800">10</text>
+      <text x="0" y="18" text-anchor="middle" fill="var(--muted)" font-size="12">domains</text>
+    </g>
+    <g transform="translate(24,92)">
+      <g>
+        <rect x="0" y="0" width="230" height="34" rx="10" fill="rgba(33,128,160,0.10)"/>
+        <text x="12" y="22" fill="var(--text)" font-size="12" font-weight="700">Selection pivots to capability</text>
+      </g>
+      <g transform="translate(0,46)">
+        <rect x="0" y="0" width="230" height="34" rx="10" fill="rgba(168,85,247,0.10)"/>
+        <text x="12" y="22" fill="var(--text)" font-size="12" font-weight="700">Assessment uses work evidence</text>
+      </g>
+      <g transform="translate(0,92)">
+        <rect x="0" y="0" width="230" height="34" rx="10" fill="rgba(16,160,109,0.10)"/>
+        <text x="12" y="22" fill="var(--text)" font-size="12" font-weight="700">Fairness stays job-related</text>
+      </g>
+    </g>
+  </g>
+</svg>
+
+              <div class="callout">
+                <h3>Operating premise</h3>
+                <p>Hiring becomes a high-stakes design decision when supervision is scarce, roles overlap, and AI tools reshape tasks faster than job descriptions can keep up.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="design-logic">
+          <h2>Design logic</h2>
+          <p>Hiring systems rely on proxies because direct measurement of job performance prior to hiring is difficult. Credentials, titles, and tenure offer shorthand signals that appear efficient under time pressure. Proxy-based selection can work when jobs are stable, tasks are standardized, and training pipelines reliably convert credentials into competence. Conditions in 2026 weaken those assumptions for many small firms.</p>
+<p>Three design principles motivate a capability-based approach.</p>
+<p>Predictors should match the work as performed, not the job description as imagined. Job descriptions often express idealized roles, while day-to-day work in a small firm includes interruptions, customer escalation, tool improvisation, and cross-functional handoffs. Capability domains attempt to align assessment with the work’s operating reality. Work samples and structured interviews can increase alignment because they elicit evidence of how a person thinks and acts in job-relevant scenarios. Meta-analytic research in personnel selection has long supported the value of structured methods relative to unstructured judgment. Schmidt and Hunter’s synthesis remains a prominent reference point for the comparative predictive value of selection methods. Campion and colleagues’ review of structured interviewing similarly emphasizes how structure improves reliability and job-relatedness.</p>
+<p>Small-team environments amplify variance, so selection must privilege operational autonomy. Founder time is a scarce managerial resource. Low-supervision roles require candidates who can self-direct, communicate clearly, and learn quickly. Traditional credentials sometimes correlate with those capacities, but correlation is not identity. Capability-based selection treats autonomy and learning as explicit criteria rather than inferred traits.</p>
+<p>Fairness requires transparency and job-relatedness, especially when AI tools are used. The shift away from credentials does not automatically reduce bias. Unstructured “culture fit” evaluation can increase bias by hiding subjective preference behind informal language. Regulatory and guidance frameworks for selection emphasize adverse impact monitoring and job-related procedures. Uniform Guidelines on Employee Selection Procedures (UGESP) remain central to how selection fairness is assessed in the United States. Federal guidance on AI-related selection tools similarly highlights disparate impact risk and the importance of monitoring and documentation.</p>
+<p>Capability-based selection becomes rational under uncertainty when the organization cannot rely on stable role definitions, lengthy onboarding, or layered supervision. The goal is not to reject credentials as meaningless. The goal is to treat credentials as secondary context while primary selection decisions focus on observable operational capacities.</p>
+        </section>
+
+        <section class="section" id="framework">
+          <h2>The Adaptive Hire Framework</h2>
+          <p class="muted">Ten capability domains framed as behaviorally assessable capacity rather than personality traits.</p>
+          <div class="callout">
+            <h3>How to use it</h3>
+            <p>Select 4–6 domains as core for a role. Use work samples, structured screening, and scenario prompts to gather evidence. Treat credentials as secondary context rather than the primary filter.</p>
+          </div>
+        </section>
+
+        <section class="section" id="domains">
+          <h2>Ten capability domains</h2>
+          <p class="muted">Each card links to a detailed domain section later in the document.</p>
+          <div class="card-grid">
+            
+    <a class="card" href="#domain-1">
+      <div class="card-top">
+        <div class="pill">Domain 1</div>
+        <h3>Systems thinking over task completion</h3>
+      </div>
+      <p class="muted">Systems thinking refers to the capacity to see work as part of an interconnected set of processes, constraints, and feedback loops</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-2">
+      <div class="card-top">
+        <div class="pill">Domain 2</div>
+        <h3>AI fluency without AI dependency</h3>
+      </div>
+      <p class="muted">AI fluency refers to practical ability to use AI tools to accelerate work while maintaining judgment, verification, and accountability</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-3">
+      <div class="card-top">
+        <div class="pill">Domain 3</div>
+        <h3>Bias for action with low supervision</h3>
+      </div>
+      <p class="muted">Bias for action means initiating progress while staying aligned with goals, constraints, and quality standards</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-4">
+      <div class="card-top">
+        <div class="pill">Domain 4</div>
+        <h3>Communication that reduces friction</h3>
+      </div>
+      <p class="muted">Friction-reducing communication is the ability to convey information in ways that prevent confusion, rework, and unnecessary emotional escalation</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-5">
+      <div class="card-top">
+        <div class="pill">Domain 5</div>
+        <h3>Learning velocity over static credentials</h3>
+      </div>
+      <p class="muted">Learning velocity is the demonstrated ability to acquire new knowledge, apply it to work, and transfer it to adjacent problems</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-6">
+      <div class="card-top">
+        <div class="pill">Domain 6</div>
+        <h3>Ethical judgment under ambiguity</h3>
+      </div>
+      <p class="muted">Ethical judgment under ambiguity is the ability to make decisions that are defensible when rules are incomplete and tradeoffs exist</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-7">
+      <div class="card-top">
+        <div class="pill">Domain 7</div>
+        <h3>Customer empathy that drives design</h3>
+      </div>
+      <p class="muted">Customer empathy refers to the capacity to understand customer needs and constraints and translate them into workable service or product decisions</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-8">
+      <div class="card-top">
+        <div class="pill">Domain 8</div>
+        <h3>Financial awareness beyond the paycheck</h3>
+      </div>
+      <p class="muted">Financial awareness means understanding how everyday decisions affect cost, margin, cash timing, and risk</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-9">
+      <div class="card-top">
+        <div class="pill">Domain 9</div>
+        <h3>Cross-functional curiosity</h3>
+      </div>
+      <p class="muted">Cross-functional curiosity is the capacity to learn adjacent functions and collaborate across boundaries without territorial behavior</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+
+    <a class="card" href="#domain-10">
+      <div class="card-top">
+        <div class="pill">Domain 10</div>
+        <h3>Emotional resilience under uncertainty</h3>
+      </div>
+      <p class="muted">Emotional resilience refers to sustained effectiveness under ambiguity, feedback, shifting priorities, and occasional failure</p>
+      <div class="card-cta">Read details <span aria-hidden="true">→</span></div>
+    </a>
+    
+          </div>
+        </section>
+
+        <section class="section" id="positioning">
+          <h2>Positioning of the framework</h2>
+          <p>The Adaptive Hire Framework is a proposed model, not a proven theory. The framework does not claim empirical validation, performance guarantees, or endorsement by any institution. The framework is offered as a structured lens for improving hiring decisions under conditions that weaken credential-first screening and intensify the costs of mis-hiring.</p>
+<p>The framework is intended as an open contribution. Founders, HR practitioners, workforce intermediaries, and researchers can test, adapt, and refine the domains, definitions, and assessment prompts. Contexts differ widely: a five-person plumbing company, a twelve-person home health startup, and a ten-person software consultancy share “smallness,” yet differ in regulation, risk, and workflow. Model usefulness depends on how well implementation fits the operating context.</p>
+<p>The framework’s practical value should be judged by whether it helps small teams ask better hiring questions, reduce reliance on weak proxies, and design assessments that are job-related and fair. Regulatory guidance and professional selection standards remain relevant, particularly when algorithmic tools are used.</p>
+        </section>
+
+        <section class="section" id="application">
+          <h2>Practical application</h2>
+          <p>Application guidance below aims to be usable without implying certainty. Founders and small HR teams can treat these steps as options for experimentation.</p>
+<p>Translating domains into job postings</p>
+<p>Job postings often function as filters rather than accurate role descriptions. A capability-based posting treats the domains as explicit expectations and replaces vague requirements with observable outcomes.</p>
+<p>Practical steps:</p>
+<p>Define the work outputs first. Examples include “resolve 15 customer tickets per day with documented resolutions” or “produce weekly invoice-ready project updates.”</p>
+<p>Select 4–6 domains as “core” and label the remainder as “valuable.” Small roles that demand all ten domains create unrealistic expectations.</p>
+<p>Replace blanket degree requirements with learning evidence. Degree inflation research suggests that unnecessary degree filters shrink pools without guaranteeing improved fit.</p>
+<p>Add a transparency note on AI use. The note should clarify what tools are allowed, what verification is required, and what data must not be entered into external systems.</p>
+<p>Screening for domains</p>
+<p>Selection should emphasize job-related evidence. Structured tools typically outperform informal conversation because structure increases consistency and reduces idiosyncratic bias.</p>
+<p>Recommended screening mix:</p>
+<p>Work sample aligned to real job tasks, scored with a rubric.</p>
+<p>Structured interview with standardized questions and anchored scoring.</p>
+<p>Scenario prompt that tests judgment under ambiguity, including escalation logic.</p>
+<p>Reference checks focused on domain-relevant behaviors, not general impressions.</p>
+<p>Avoiding bias and ensuring fairness</p>
+<p>Shifting away from credentials does not eliminate bias risk. Bias can increase if “fit” becomes an unstructured stand-in for similarity. Fairness depends on consistent criteria, documentation, and adverse-impact awareness.</p>
+<p>Core safeguards:</p>
+<p>Write domain definitions into rubrics. Each domain should have behavioral indicators and scoring anchors.</p>
+<p>Use the same prompts for all candidates in a role. Structured interviews improve comparability.</p>
+<p>Document rationale and retain records. UGESP highlights recordkeeping and job-relatedness principles.</p>
+<p>Audit any AI-enabled screening tool. EEOC guidance emphasizes that automated tools can create disparate impact and require monitoring, even when vendors supply the system.</p>
+<p>Accommodations planning. Disability-related guidance warns that algorithmic tools can screen out qualified applicants without accommodations.</p>
+<p>Risk management discipline. NIST’s AI Risk Management Framework provides a voluntary structure for governance, measurement, and mitigation when AI tools shape decisions.</p>
+        </section>
+
+        <section class="section" id="limitations">
+          <h2>Limitations</h2>
+          <p>The Adaptive Hire Framework is conceptual and therefore limited in several ways. Measurement remains a central challenge. Domain definitions can be written clearly, yet scoring still depends on rubric quality, interviewer training, and consistency. Small firms may struggle to maintain structure under time pressure, which can reintroduce bias through shortcuts.</p>
+<p>Context dependence limits generalization. Regulated roles, safety-critical work, and licensed professions may require credentials and compliance checks regardless of capability framing. Sector variation also affects which domains matter most. Financial awareness may be essential in a service firm that bills hourly, while customer empathy may be less central in a back-office manufacturing role.</p>
+<p>Implementation risk exists when founders interpret domains as personality labels or culture-fit screens. The framework explicitly rejects that framing, yet practice can drift without governance. Legal and ethical risks increase when AI-enabled tools are used for screening or evaluation. Federal guidance emphasizes that automated systems can produce adverse impact and must be monitored and documented.</p>
+<p>Empirical testing remains necessary. Evaluation would require careful study designs that compare outcomes across hiring methods, including quality of hire, retention, performance, team health, and adverse impact measures. Evidence development should also examine unintended consequences, including exclusion of nontraditional candidates through poorly designed work samples.</p>
+        </section>
+
+        <section class="section" id="conclusion">
+          <h2>Conclusion</h2>
+          <p>Small business hiring in 2026 reflects compounding pressures: persistent difficulty locating qualified applicants, widening mismatch between job signals and job content, and rapid task recomposition as AI tools enter everyday operations. Small firms carry higher relative risk from hiring errors because lean staffing magnifies variance and reduces buffers. Evidence from small-business reporting and labor market tracking supports the claim that hiring friction persists even as macro conditions shift.</p>
+<p>The Adaptive Hire Framework is offered as a proposed lens for capability-based selection under uncertainty. Ten domains specify observable operational capacities that can be assessed through structured methods, work samples, and scenario prompts. The framework does not claim validation and should be treated as an open contribution for experimentation, refinement, and research.</p>
+<p>A practical research and practitioner agenda follows naturally. Field pilots could test whether domain-based job postings broaden applicant pools without increasing mismatch, whether structured domain rubrics improve consistency across interviewers, and whether adverse impact monitoring changes when credential filters are reduced. Policymakers and workforce intermediaries could examine how local training pathways align with domain-defined capabilities rather than credential checklists. Organizations that adopt the framework should document design choices, outcomes, and unintended effects so that future work can move from conceptual plausibility toward empirical clarity.</p>
+<p>References</p>
+<p>Campion, M. A., Palmer, D. K., &amp; Campion, J. E. (1997). A review of structure in the selection interview. Personnel Psychology, 50(3), 655–702. doi:10.1111/j.1744-6570.1997.tb00709.x</p>
+<p>Equal Employment Opportunity Commission. (2022, May 12). Artificial intelligence and the ADA (resource page).</p>
+<p>Equal Employment Opportunity Commission. (2023, May 18). Select issues: Assessing adverse impact in software, algorithms, and artificial intelligence used in employment selection procedures under Title VII of the Civil Rights Act of 1964 (technical assistance document).</p>
+<p>National Federation of Independent Business. (2025). Small Business Jobs Report (selected releases).</p>
+<p>National Institute of Standards and Technology. (2023). Artificial Intelligence Risk Management Framework (AI RMF 1.0) (NIST AI 100-1).</p>
+<p>National Institute of Standards and Technology. (2024). Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile (NIST AI 600-1).</p>
+<p>Schmidt, F. L., &amp; Hunter, J. E. (1998). The validity and utility of selection methods in personnel psychology: Practical and theoretical implications of 85 years of research findings. Psychological Bulletin, 124(2), 262–274. doi:10.1037/0033-2909.124.2.262</p>
+<p>Tabassi, E. (2023). Artificial Intelligence Risk Management Framework (AI RMF 1.0) (NIST AI 100-1). National Institute of Standards and Technology.</p>
+<p>Uniform Guidelines on Employee Selection Procedures, 29 C.F.R. pt. 1607 (1978).</p>
+<p>U.S. Bureau of Labor Statistics. (2025). Job Openings and Labor Turnover Survey (JOLTS), October 2025 (summary reporting on job openings and hires).</p>
+<p>U.S. Small Business Administration, Office of Advocacy. (2024). Frequently asked questions about small business, 2024 and Small business profiles (selected releases and PDF profiles).</p>
+<p>World Economic Forum. (2025). The Future of Jobs Report 2025.</p>
+        </section>
+
+        <section class="section" id="domains-detail">
+          <h2>Domain details</h2>
+          <p class="muted">Copy-ready language for job postings, interview guides, and work-sample rubrics.</p>
+          
+    <section class="domain" id="domain-1">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 1</div>
+        <h2>Systems thinking over task completion</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Systems thinking refers to the capacity to see work as part of an interconnected set of processes, constraints, and feedback loops. Small businesses often run on informal systems, meaning a single change in one area affects customer experience, cash flow, and team workload. Systems thinking supports prioritization because the employee can distinguish between “busy work” and leverage points. The domain emphasizes understanding dependencies, bottlenecks, and second-order effects.</p>
+<p>What it looks like at work. The person asks clarifying questions about downstream handoffs, documents decisions so others can execute, and flags risks early when a task might break another process. The person proposes small improvements that reduce recurring errors.</p>
+<p>What it is not. The domain is not abstract theorizing, perfectionism, or “big picture” talk that delays execution. The domain is not a claim about intelligence or education level.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-2">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 2</div>
+        <h2>AI fluency without AI dependency</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. AI fluency refers to practical ability to use AI tools to accelerate work while maintaining judgment, verification, and accountability. Small firms benefit when employees can draft, summarize, classify, or prototype quickly, but risk rises when outputs are accepted without review. This domain emphasizes prompt literacy, verification habits, and awareness of limitations, including bias and hallucination risk. Responsible use also includes data handling discipline, especially when sensitive customer or employee information exists.</p>
+<p>What it looks like at work. The person uses AI to generate first drafts, then validates claims, checks sources, and adjusts to business context. The person can explain why a tool was used and what was verified.</p>
+<p>What it is not. The domain is not “AI enthusiasm,” nor does it require constant AI use. The domain is not outsourcing thinking or responsibility to a tool.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-3">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 3</div>
+        <h2>Bias for action with low supervision</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Bias for action means initiating progress while staying aligned with goals, constraints, and quality standards. Small teams often lack spare managerial capacity to provide step-by-step direction. This domain emphasizes self-starting behavior paired with escalation judgment: acting when appropriate and asking when stakes require it. Operational autonomy reduces bottlenecks and preserves founder attention for strategic work.</p>
+<p>What it looks like at work. The person identifies the next executable step, makes reasonable assumptions transparent, and delivers incremental progress quickly. The person escalates when risk, cost, or customer impact crosses a clear threshold.</p>
+<p>What it is not. The domain is not impulsivity, recklessness, or ignoring authority. The domain is not “always saying yes” or overstepping role boundaries.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-4">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 4</div>
+        <h2>Communication that reduces friction</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Friction-reducing communication is the ability to convey information in ways that prevent confusion, rework, and unnecessary emotional escalation. Small firms run on rapid coordination, often across informal channels. Clear communication includes structured updates, crisp handoffs, and expectation setting. The domain also includes listening behavior that correctly interprets what others need.</p>
+<p>What it looks like at work. The person writes messages that contain context, decisions, owners, and deadlines. The person summarizes meetings into action items and clarifies ambiguous requests before work expands.</p>
+<p>What it is not. The domain is not extroversion, charisma, or constant messaging. The domain is not “politeness theater” that avoids hard truths.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-5">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 5</div>
+        <h2>Learning velocity over static credentials</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Learning velocity is the demonstrated ability to acquire new knowledge, apply it to work, and transfer it to adjacent problems. Task change driven by software and AI increases the value of rapid learning. Degree requirements can function as a proxy for learning capacity, but degree inflation research suggests that proxies often overshoot, filtering out capable workers. This domain treats learning as a measurable behavior rather than inferred status.</p>
+<p>What it looks like at work. The person learns a new tool, documents key lessons, and applies it to reduce cycle time or errors. The person asks targeted questions, seeks feedback, and improves quickly.</p>
+<p>What it is not. The domain is not “being young,” nor is it a claim about innate intelligence. The domain is not collecting certifications without behavior change.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-6">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 6</div>
+        <h2>Ethical judgment under ambiguity</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Ethical judgment under ambiguity is the ability to make decisions that are defensible when rules are incomplete and tradeoffs exist. Small firms frequently encounter situations where policy is not written: customer disputes, data handling questions, vendor pressure, or conflicting priorities. This domain emphasizes reasoning, transparency, and willingness to surface risks rather than hiding them. Responsible judgment becomes more important when automated tools influence decisions, because biased or discriminatory outcomes can occur even when intent is neutral.</p>
+<p>What it looks like at work. The person identifies stakeholders affected by a decision, documents rationale, and escalates when legal or ethical exposure appears. The person avoids shortcuts that shift harm onto customers or coworkers.</p>
+<p>What it is not. The domain is not moral grandstanding or rigid rule-following detached from context. The domain is not personal ideology testing.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-7">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 7</div>
+        <h2>Customer empathy that drives design</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Customer empathy refers to the capacity to understand customer needs and constraints and translate them into workable service or product decisions. Small firms compete through responsiveness, trust, and iteration. Empathy in this domain is operational: interpreting signals, clarifying needs, and shaping deliverables that solve real problems. The domain also includes recognizing when a request is misaligned with value or feasibility.</p>
+<p>What it looks like at work. The person asks customers clarifying questions, restates the problem accurately, and proposes options with tradeoffs. The person notices recurring customer pain points and feeds them into process or product changes.</p>
+<p>What it is not. The domain is not “customer is always right” submission. The domain is not friendliness without follow-through.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-8">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 8</div>
+        <h2>Financial awareness beyond the paycheck</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Financial awareness means understanding how everyday decisions affect cost, margin, cash timing, and risk. Many small-business failures involve cash flow timing rather than demand alone. Employees who understand unit economics and cost drivers can avoid waste and reduce preventable rework. This domain does not require accounting expertise; it requires practical awareness of tradeoffs that determine sustainability.</p>
+<p>What it looks like at work. The person chooses solutions that balance quality and cost, flags scope creep, and understands how delays affect invoicing or customer retention. The person can discuss basic drivers such as labor time, materials, and opportunity cost.</p>
+<p>What it is not. The domain is not obsession with cost-cutting at the expense of quality or ethics. The domain is not equating personal compensation with business value.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-9">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 9</div>
+        <h2>Cross-functional curiosity</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Cross-functional curiosity is the capacity to learn adjacent functions and collaborate across boundaries without territorial behavior. Role overlap is common in lean firms, and customer outcomes often depend on handoffs among sales, operations, service, and finance. Curiosity supports coordination because the employee understands enough about neighboring work to anticipate constraints. The domain also reduces single points of failure because knowledge spreads.</p>
+<p>What it looks like at work. The person learns basic workflows outside the formal role, asks to observe adjacent processes, and collaborates on fixes. The person avoids “not my job” reflexes when customer outcomes depend on shared action.</p>
+<p>What it is not. The domain is not doing everyone else’s job or resisting specialization. The domain is not uncontrolled scope expansion.</p>
+      </div>
+    </section>
+    
+
+    <section class="domain" id="domain-10">
+      <header class="domain-header">
+        <div class="domain-kicker">Capability domain 10</div>
+        <h2>Emotional resilience under uncertainty</h2>
+      </header>
+      <div class="domain-body">
+        <p>Definition. Emotional resilience refers to sustained effectiveness under ambiguity, feedback, shifting priorities, and occasional failure. Volatility can be economic, operational, or interpersonal, and small firms transmit volatility quickly across the team. Resilience supports learning, communication, and judgment because the person remains constructive when pressure rises. The domain emphasizes recovery and regulation rather than suppression of emotion.</p>
+<p>What it looks like at work. The person accepts feedback without defensiveness, recovers after setbacks, and stays focused on the next best action. The person can name constraints, request support appropriately, and avoid spreading panic.</p>
+<p>What it is not. The domain is not stoicism-as-silence or tolerance of mistreatment. The domain is not requiring constant positivity.</p>
+      </div>
+    </section>
+    
+        </section>
+
+        <footer class="container">
+          <div class="footer-grid">
+            <div>
+              <strong>Adaptive Hire Framework</strong> · HTML modern layout draft · 01-08-2026
+            </div>
+            <div>
+              <a class="btn secondary" href="#top">Back to top</a>
+            </div>
+          </div>
+          <p style="margin: 12px 0 0 0;">This document is a design artifact. No outcomes are guaranteed by adoption. Use job-related assessment, document decisions, and monitor fairness when implementing structured selection.</p>
+        </footer>
+      </div>
+    </div>
+  <section id="signature" class="signature print-only" aria-label="Signature">
+  <div class="signature-card">
+    <div class="signature-title">Signature</div>
+    <div class="signature-row">
+      <div class="sig-line"></div>
+      <div class="sig-meta">
+        <div><strong>Dr. Cary Woods, DHA</strong></div>
+        <div>Author • Framework Designer</div>
+        <div>Date: <span class="sig-date">January 8, 2026</span></div>
+      </div>
+    </div>
+    <div class="signature-rights">© 2026 Dr. Cary Woods. All rights reserved.</div>
+  </div>
+</section>
+</main>
+
+  <script>
+    // Reading progress bar
+    const bar = document.getElementById('readingProgress');
+    function updateProgress() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      bar.style.width = pct.toFixed(2) + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  </script>
+</body>
+</html>
