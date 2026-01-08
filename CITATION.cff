@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use the Adaptive Hire Framework, please cite it as below."
+title: "Adaptive Hire Framework"
+version: "1.0"
+date-released: 2026-01-08
+authors:
+  - family-names: "Woods"
+    given-names: "Cary"
+    name-suffix: "DHA"
+preferred-citation:
+  type: report
+  authors:
+    - family-names: "Woods"
+      given-names: "Cary"
+      name-suffix: "DHA"
+  title: "Adaptive Hire Framework"
+  version: "1.0"
+  issued:
+    date-parts:
+      - - 2026
+        - 1
+        - 8
+  url: "https://ahf.hcwoods.com"
+  repository: "https://github.com/carywoods/ahf"
+  publisher: "Dr. Cary Woods"
+license: "CC-BY-NC-4.0"
+url: "https://ahf.hcwoods.com"
+repository-code: "https://github.com/carywoods/ahf"
